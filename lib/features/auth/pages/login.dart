@@ -33,7 +33,10 @@ class _LoginPageState extends State<LoginPage> {
 
       try {
         // Verify email and password using the loginUser method
-        final user = await dbHelper.loginUser(email, password);
+        final user = await dbHelper.loginUser(
+          email,
+          password,
+        );
 
         if (user != null) {
           // User exists, navigate to home
@@ -41,22 +44,43 @@ class _LoginPageState extends State<LoginPage> {
             SnackBar(
               content: Text(
                 'Login Successful!',
-                style: TextStyle(color: Colors.red, fontSize: 12),
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 15,
+                ),
               ),
             ),
           );
 
-          Navigator.of(context).pushReplacement(HomePage.route());
+          Navigator.of(context).pushReplacement(
+            HomePage.route(),
+          );
         } else {
           // Invalid credentials
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Invalid email or password')),
+            SnackBar(
+              content: Text(
+                'Invalid email or password',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 15,
+                ),
+              ),
+            ),
           );
         }
       } catch (e) {
         // Handle any potential database errors
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('An error occurred: $e')),
+          SnackBar(
+            content: Text(
+              'An error occurred: $e',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 15,
+              ),
+            ),
+          ),
         );
       }
     }
@@ -66,7 +90,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(
+        15.0,
+      ),
       child: Form(
         key: formKey,
         child: Column(
