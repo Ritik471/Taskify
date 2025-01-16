@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_app/features/auth/pages/login.dart';
-import 'package:task_app/features/home/pages/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -60,6 +59,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const LoginPage());
+        home: LoginPage());
   }
 }

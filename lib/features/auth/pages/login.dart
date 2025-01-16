@@ -32,16 +32,20 @@ class _LoginPageState extends State<LoginPage> {
       final password = passwordController.text.trim();
 
       try {
-        // Fetch the user from the database
-        final user = await dbHelper.getUser(email);
+        // Verify email and password using the loginUser method
+        final user = await dbHelper.loginUser(email, password);
 
-        if (user != null && user['password'] == password) {
-          // User exists and password matches
+        if (user != null) {
+          // User exists, navigate to home
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login Successful!')),
+            SnackBar(
+              content: Text(
+                'Login Successful!',
+                style: TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
           );
 
-          // Navigate to the home screen or tasks page
           Navigator.of(context).pushReplacement(HomePage.route());
         } else {
           // Invalid credentials
@@ -50,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       } catch (e) {
-        // Handle potential database errors
+        // Handle any potential database errors
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('An error occurred: $e')),
         );

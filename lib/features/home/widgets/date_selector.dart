@@ -3,7 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:task_app/constants/utils.dart';
 
 class DateSelector extends StatefulWidget {
-  const DateSelector({super.key});
+  // Make the onDateSelected parameter required and accept a DateTime parameter
+  final Function(DateTime date) onDateSelected;
+
+  const DateSelector({super.key, required this.onDateSelected});
 
   @override
   State<DateSelector> createState() => _DateSelectorState();
@@ -11,11 +14,13 @@ class DateSelector extends StatefulWidget {
 
 class _DateSelectorState extends State<DateSelector> {
   int weekOffset = 0;
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now(); // Default date for the task
+
   @override
   Widget build(BuildContext context) {
     final weekDates = generateWeekDates(weekOffset);
     String monthName = DateFormat("MMMM").format(weekDates.first);
+
     return Column(
       children: [
         Padding(
@@ -41,11 +46,9 @@ class _DateSelectorState extends State<DateSelector> {
               ),
               IconButton(
                 onPressed: () {
-                  setState(
-                    () {
-                      weekOffset++;
-                    },
-                  );
+                  setState(() {
+                    weekOffset++;
+                  });
                 },
                 icon: Icon(Icons.arrow_forward_ios),
               ),
@@ -73,6 +76,8 @@ class _DateSelectorState extends State<DateSelector> {
                     setState(() {
                       selectedDate = date;
                     });
+                    widget.onDateSelected(
+                        selectedDate); // Pass selected date back to parent
                   },
                   child: Container(
                     decoration: BoxDecoration(

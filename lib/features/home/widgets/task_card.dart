@@ -13,6 +13,10 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine whether the text should be light or dark
+    final isDark = color.computeLuminance() < 0.5;
+    final textColor = isDark ? Colors.white : Colors.black;
+
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: 10,
@@ -28,11 +32,15 @@ class TaskCard extends StatelessWidget {
         children: [
           Text(
             headerText,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
           ),
           Text(
             descriptionText,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+              fontSize: 14,
+              color: textColor,
+            ),
             maxLines: 4,
             overflow: TextOverflow.ellipsis,
           ),

@@ -1,6 +1,7 @@
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:task_app/model/database_helper.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 
 class AddNewTask extends StatefulWidget {
   static MaterialPageRoute route() =>
@@ -16,6 +17,37 @@ class _AddNewTaskState extends State<AddNewTask> {
   TextEditingController descriptionController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   Color selectedColor = Color.fromRGBO(245, 222, 194, 1);
+  final dbHelper = DatabaseHelper.instance;
+
+  void addTask() async {
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
+    final currentTime = DateFormat('HH:mm').format(DateTime.now());
+
+    if (title.isEmpty || description.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill in both title and description.')),
+      );
+      return;
+    }
+
+    final task = {
+      'title': title,
+      'description': description,
+      'color': selectedColor.value,
+      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
+      'time': currentTime,
+    };
+
+    await dbHelper.insertTask(task);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Task added successfully!')),
+    );
+
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,9 +101,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                 hintText: 'Title',
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             TextFormField(
               controller: descriptionController,
               decoration: InputDecoration(
@@ -79,43 +109,27 @@ class _AddNewTaskState extends State<AddNewTask> {
               ),
               maxLines: 3,
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             ColorPicker(
               heading: Text(
                 'Select Color',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               subheading: Text(
                 'Select a different shade',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-              onColorChanged: (
-                Color color,
-              ) {
-                setState(
-                  () {
-                    selectedColor = color;
-                  },
-                );
+              onColorChanged: (Color color) {
+                setState(() {
+                  selectedColor = color;
+                });
               },
               color: selectedColor,
-              pickersEnabled: {
-                ColorPickerType.wheel: true,
-              },
+              pickersEnabled: {ColorPickerType.wheel: true},
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: addTask,
               child: Text(
                 'SUBMIT',
                 style: TextStyle(color: Colors.white, fontSize: 15),
