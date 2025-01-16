@@ -18,10 +18,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final dbHelper = DatabaseHelper.instance;
-  DateTime selectedDate = DateTime.now(); // Selected date for filtering tasks
+  DateTime selectedDate = DateTime.now();
   List<Map<String, dynamic>> tasks =
       []; // List to store tasks from the database
-  bool isDarkMode = false; // Default to light mode
+
   // Fetch tasks for the selected date
   void fetchTasks() async {
     final formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
