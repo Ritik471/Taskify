@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:task_app/constants/utils.dart';
 
 class DateSelector extends StatefulWidget {
-  // Make the onDateSelected parameter required and accept a DateTime parameter
   final Function(DateTime date) onDateSelected;
 
   const DateSelector({super.key, required this.onDateSelected});
@@ -14,7 +13,7 @@ class DateSelector extends StatefulWidget {
 
 class _DateSelectorState extends State<DateSelector> {
   int weekOffset = 0;
-  DateTime selectedDate = DateTime.now(); // Default date for the task
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +30,11 @@ class _DateSelectorState extends State<DateSelector> {
             children: [
               IconButton(
                 onPressed: () {
-                  setState(() {
-                    weekOffset--;
-                  });
+                  setState(
+                    () {
+                      weekOffset--;
+                    },
+                  );
                 },
                 icon: Icon(Icons.arrow_back_ios_new),
               ),
@@ -46,9 +47,11 @@ class _DateSelectorState extends State<DateSelector> {
               ),
               IconButton(
                 onPressed: () {
-                  setState(() {
-                    weekOffset++;
-                  });
+                  setState(
+                    () {
+                      weekOffset++;
+                    },
+                  );
                 },
                 icon: Icon(Icons.arrow_forward_ios),
               ),
@@ -73,11 +76,14 @@ class _DateSelectorState extends State<DateSelector> {
                     selectedDate.year == date.year;
                 return GestureDetector(
                   onTap: () {
-                    setState(() {
-                      selectedDate = date;
-                    });
+                    setState(
+                      () {
+                        selectedDate = date;
+                      },
+                    );
                     widget.onDateSelected(
-                        selectedDate); // Pass selected date back to parent
+                      selectedDate,
+                    ); // Pass selected date back to parent
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -89,7 +95,9 @@ class _DateSelectorState extends State<DateSelector> {
                         width: 2,
                       ),
                     ),
-                    margin: EdgeInsets.only(right: 8),
+                    margin: EdgeInsets.only(
+                      right: 8,
+                    ),
                     width: 65,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -97,9 +105,10 @@ class _DateSelectorState extends State<DateSelector> {
                         Text(
                           DateFormat("d").format(date),
                           style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(
                           height: 5,
@@ -107,9 +116,10 @@ class _DateSelectorState extends State<DateSelector> {
                         Text(
                           DateFormat("E").format(date),
                           style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),

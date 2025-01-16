@@ -26,7 +26,12 @@ class _AddNewTaskState extends State<AddNewTask> {
 
     if (title.isEmpty || description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill in both title and description.')),
+        SnackBar(
+          content: Text(
+            'Please fill in both title and description.',
+            style: TextStyle(color: Colors.red, fontSize: 15),
+          ),
+        ),
       );
       return;
     }
@@ -68,20 +73,26 @@ class _AddNewTaskState extends State<AddNewTask> {
                 context: context,
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(
-                  Duration(days: 90),
+                  Duration(
+                    days: 90,
+                  ),
                 ),
               );
 
               if (_selectedDate != null) {
-                setState(() {
-                  selectedDate = _selectedDate;
-                });
+                setState(
+                  () {
+                    selectedDate = _selectedDate;
+                  },
+                );
               }
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                DateFormat('d-MM-y').format(selectedDate),
+                DateFormat('d-MM-y').format(
+                  selectedDate,
+                ),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -113,11 +124,17 @@ class _AddNewTaskState extends State<AddNewTask> {
             ColorPicker(
               heading: Text(
                 'Select Color',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               subheading: Text(
                 'Select a different shade',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               onColorChanged: (Color color) {
                 setState(() {
@@ -132,7 +149,11 @@ class _AddNewTaskState extends State<AddNewTask> {
               onPressed: addTask,
               child: Text(
                 'SUBMIT',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
